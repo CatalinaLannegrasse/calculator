@@ -8,43 +8,39 @@
 </head>
 <body>
 
-  <div class="calculator">
-    <!-- Calculator Display with dummy numbers -->
-    <div id="display">0</div>
+<div class="calculator">
+  <!-- Calculator Display -->
+  <div id="display">0</div>
 
-    <!-- Buttons Container -->
-    <div class="buttons">
-      <!-- Clear Button -->
-      <button id="clear">Clear</button>
+  <!-- Buttons Container -->
+  <div class="buttons">
+    <!-- Top Row: Clear & Backspace -->
+    <button id="clear">clear</button>
+    <button id="backspace">⌫</button>
 
-      <!-- Operators -->
-      <button class="operator" data-operator="/">÷</button>
-      <button class="operator" data-operator="*">×</button>
-      <button class="operator" data-operator="-">-</button>
-      <button class="operator" data-operator="+">+</button>
+    <!-- Operators Row -->
+    <button class="operator" data-operator="/">÷</button>
+    <button class="operator" data-operator="*">×</button>    
+    <button class="operator" data-operator="+">+</button>
+    <button class="operator" data-operator="-">-</button>
 
-      <!-- Digits 0-9 -->
-      <button class="number" data-number="7">7</button>
-      <button class="number" data-number="8">8</button>
-      <button class="number" data-number="9">9</button>
-      <button class="number" data-number="4">4</button>
-      <button class="number" data-number="5">5</button>
-      <button class="number" data-number="6">6</button>
-      <button class="number" data-number="1">1</button>
-      <button class="number" data-number="2">2</button>
-      <button class="number" data-number="3">3</button>
-      <button class="number" data-number="0">0</button>
+    <!-- Next Row: Operators + Numbers -->
+    <button class="number" data-number="1">1</button>
+    <button class="number" data-number="2">2</button>
+    <button class="number" data-number="3">3</button>
+    <button class="number" data-number="4">4</button>
 
-      <!-- . Button -->
-      <button id="decimal">.</button>
+    <button class="number" data-number="5">5</button>
+    <button class="number" data-number="6">6</button>
+    <button class="number" data-number="7">7</button>
+    <button class="number" data-number="8">8</button>
 
-      <!-- Backspace Button -->
-      <button id="backspace">⌫</button>
-
-      <!-- Equals Button -->
-      <button id="equals">=</button>
-    </div>
+    <button class="number" data-number="9">9</button> 
+    <button class="number" data-number="0">0</button>
+    <button id="decimal">.</button>
+    <button id="equals">=</button>
   </div>
+</div>
 
   <script src="script.js" defer></script>
 </body>
