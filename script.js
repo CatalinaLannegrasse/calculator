@@ -38,24 +38,27 @@ function operate(operator, a, b) {
   }
 }
 
-// Select the display and number buttons from the HTML
 const display = document.querySelector("#display");
 const numberButtons = document.querySelectorAll(".number");
-
-// Select operators and equals buttons
 const operatorButtons = document.querySelectorAll(".operator");
 const equalsButton = document.querySelector("#equals");
 const clearButton = document.querySelector("#clear");
 
-// State variables for building out expressions
 let displayValue = "";
 let firstNumber = "";
 let secondNumber = "";
 let currentOperator = null;
+let shouldResetDisplay = false; // Tracks if a result was just shown
 
 // Number button logic
 numberButtons.forEach((button) => {
   button.addEventListener("click", () => {
+    // If a result was just calculated, typing a new digit clears the screen first
+    if (shouldResetDisplay) {
+      displayValue = "";
+      shouldResetDisplay = false;
+    }
+
     const digit = button.getAttribute("data-number");
     displayValue += digit;
     display.textContent = displayValue;
@@ -67,42 +70,56 @@ operatorButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const chosenOperator = button.getAttribute("data-operator");
 
-    // If we already have an active calculation queued up, evaluate it first (chaining)
-    if (currentOperator !== null && secondNumber !== "") {
-      firstNumber = operate(currentOperator, firstNumber, secondNumber);
-      display.textContent = firstNumber;
-      secondNumber = "";
-    } else if (firstNumber === "") {
-      // If no first number was stored yet, grab what's on the screen
+    // Guard: If user presses an operator consecutively (e.g., 2 + +), 
+    // don't evaluate, just update the active operator.
+    if (displayValue === "" && currentOperator !== null) {
+      currentOperator = chosenOperator;
+      return;
+    }
+
+    if (firstNumber === "") {
       firstNumber = displayValue;
+    } else if (currentOperator !== null) {
+      // Evaluate current pair if we already have two numbers and an operator
+      secondNumber = displayValue;
+      firstNumber = operate(currentOperator, firstNumber, secondNumber);
+      
+      if (typeof firstNumber === "string") {
+        display.textContent = firstNumber;
+        return;
+      } else {
+        firstNumber = Math.round(firstNumber * 100000000) / 100000000;
+        display.textContent = firstNumber;
+      }
     }
 
     currentOperator = chosenOperator;
-    displayValue = ""; // Reset display for the next number entry
+    displayValue = "";
+    shouldResetDisplay = false;
   });
 });
 
 // Equals button logic
 equalsButton.addEventListener("click", () => {
+  // Guard: Don't crash if data is missing
   if (currentOperator === null || firstNumber === "" || displayValue === "") return;
 
   secondNumber = displayValue;
   let result = operate(currentOperator, firstNumber, secondNumber);
-  
-  // Handle division by zero edge case gracefully
+
   if (typeof result === "string") {
-    display.textContent = result;
+    display.textContent = result; // Snarky error message
   } else {
-    // Round long decimals to prevent overflow
     result = Math.round(result * 100000000) / 100000000;
     display.textContent = result;
   }
 
-  // Reset state for the next calculation, keeping result as firstNumber
+  // Reset state for next calculation, flagging that display needs reset on next number click
   firstNumber = result;
   currentOperator = null;
   secondNumber = "";
   displayValue = "";
+  shouldResetDisplay = true;
 });
 
 // Clear button logic
@@ -111,5 +128,14 @@ clearButton.addEventListener("click", () => {
   firstNumber = "";
   secondNumber = "";
   currentOperator = null;
-  display.textContent = "0"; // or your default initial text
+  shouldResetDisplay = false;
+  display.textContent = "0";
 });
+
+// Make sure your divide function has a snarky message:
+function divide(a, b) {
+  if (b === 0) {
+    return "Nice try, Einstein!"; // Snarky error message
+  }
+  return a / b;
+}
