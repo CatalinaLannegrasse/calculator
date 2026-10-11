@@ -14,7 +14,7 @@ body {
   height: 100vh;
 }
 
-/* Calculator Container - Soft pill-like curves and cozy shadow */
+/* Calculator Container */
 .calculator {
   background-color: #fff9fb;
   padding: 28px;
@@ -44,14 +44,14 @@ body {
   box-shadow: inset 0 2px 6px rgba(186, 150, 182, 0.1);
 }
 
-/* Buttons Grid Layout (4 columns) */
+/* Buttons Flexbox Layout */
 .buttons {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
-/* Base Button Styles - Soft, organic rounded buttons */
+/* Base Button Styles - Standard buttons take up roughly 1/4 of a row */
 button {
   background-color: #f4ecf0;
   color: #5c4b51;
@@ -61,6 +61,7 @@ button {
   border-radius: 16px;
   padding: 16px 0;
   cursor: pointer;
+  flex: 1 1 22%; /* 4 buttons per row layout */
   transition: all 0.2s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
 }
@@ -75,6 +76,11 @@ button:active {
   transform: translateY(0);
 }
 
+/* Top Row: Clear and Backspace take up half the row each */
+#clear, #backspace {
+  flex: 1 1 47%;
+}
+
 /* Operator Buttons - Soft Lavender Accent */
 .operator {
   background-color: #dfb2d7;
@@ -86,36 +92,34 @@ button:active {
   background-color: #d29cc7;
 }
 
-/* Clear & Backspace Buttons */
+/* Clear Button */
 #clear {
   background-color: #e5989b;
   color: #ffffff;
   font-weight: 700;
-  grid-column: span 2; /* Spans 2 columns */
 }
 
 #clear:hover {
   background-color: #d68487;
 }
 
+/* Backspace Button */
 #backspace {
   background-color: #d8b4bc;
   color: #ffffff;
   font-weight: 700;
-  grid-column: span 2; /* Matches clear width for symmetry */
 }
 
 #backspace:hover {
   background-color: #c79fa8;
 }
 
-/* Statement Equals Button - Large, pill-shaped focal point */
+/* Statement Equals Button */
 #equals {
   background-color: #b5838d;
   color: #ffffff;
   font-weight: 700;
-  grid-column: span 1; /* Makes it wider and a true statement piece */
-  border-radius: 20px;
+  border-radius: 16px;
 }
 
 #equals:hover {
