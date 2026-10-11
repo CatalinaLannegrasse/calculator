@@ -39,3 +39,30 @@ function operate(operator, a, b) {
       return null; // Return null if an invalid operator is passed
   }
 }
+
+// Select the display and number buttons from the HTML
+const display = document.querySelector("#display");
+const numberButtons = document.querySelectorAll(".number");
+
+// Track the current display value text
+let displayValue = "";
+
+numberButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    // Get the number value from the data attribute or text content
+    const digit = button.getAttribute("data-number");
+    
+    // Append the digit to displayValue (or handle first number input)
+    displayValue += digit;
+    
+    // Update the HTML display element
+    display.textContent = displayValue;
+    
+    // Update your number variables depending on whether an operator is chosen yet
+    if (operator === null) {
+      firstNumber = displayValue;
+    } else {
+      secondNumber = displayValue;
+    }
+  });
+});
